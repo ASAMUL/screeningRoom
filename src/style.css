@@ -1,4 +1,4 @@
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -16,14 +16,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
+} */
+/* a:hover {
   color: #535bf2;
-}
+} */
 
 body {
   margin: 0;
@@ -38,7 +38,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -59,18 +59,17 @@ button:focus-visible {
 
 .card {
   padding: 2em;
-}
+} */
 * {
   box-sizing: border-box;
 }
 
 #app {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0;
-  border: ;
   /* padding: 2rem; */
-  width: 100%;
-  height: 100%; 
+  width: 100vw;
+  height: 100vh; 
   text-align: center;
 }
 
