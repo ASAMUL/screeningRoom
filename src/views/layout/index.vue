@@ -27,12 +27,21 @@
         >
           <n-icon size="20" color="#fff"> <SearchOutline /> </n-icon>
         </div>
-        <div
+        <!-- <div
           class="nav-icon flex items-center gap-2 bg-[#253646] px-3 py-3 rounded-lg"
         >
           <n-icon size="20" color="#fff"> <User /> </n-icon>
+        </div> -->
+        <n-avatar
+          class="ml-5"
+          size="medium"
+          bordered
+          round
+          v-if="store.isLoggedIn"
+        />
+        <div class="flex" v-else>
+          <n-button size="small" class="text-white"> 登录 </n-button>
         </div>
-        flex
       </div>
     </div>
     <RouterView />
@@ -42,7 +51,9 @@
 <script setup>
 import { ref } from "vue";
 import { Bonfire, VideocamOutline, SearchOutline } from "@vicons/ionicons5";
+import { useUserStore } from "@/stores/user";
 import { RouterView } from "vue-router";
+const store = useUserStore();
 </script>
 
 <style lang="scss" scoped></style>
