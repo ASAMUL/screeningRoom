@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       vue({
         reactivityTransform: true,
       }),
-      vueDevTools(),
+      // vueDevTools(),
     ],
     //
     resolve: {
