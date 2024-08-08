@@ -28,7 +28,7 @@
       <!-- 导航栏 -->
       <div class="nav flex items-center gap-2">
         <n-button text tag="a" type="primary" size="small"> 主页 </n-button>
-        <n-button text tag="a" type="primary" size="small"> 订阅</n-button>
+        <n-button text tag="a" type="primary" size="small"> AI功能</n-button>
       </div>
       <!-- 图标导航栏 -->
       <div

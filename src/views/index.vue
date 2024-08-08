@@ -1,19 +1,34 @@
 <template>
   <div
-    class="index-container flex-1 w-full px-20 phone:px-2 pt-4 overflow-y-auto"
+    class="index-container flex-1 w-full px-60 phone:px-2 pt-4 overflow-y-auto"
   >
-    <div class="w-full h-3/4 relative">
+    <div class="w-full h-3/4 phone:h-3/5 relative mb-6">
       <n-carousel dot-type="line" show-arrow>
+        <n-image
+          height="100%"
+          width="100%"
+          :src="indexImageSrc2"
+          object-fit="cover"
+        />
         <n-image
           height="100%"
           width="100%"
           :src="indexImageSrc"
           object-fit="cover"
-      /></n-carousel>
+        />
+      </n-carousel>
 
       <div class="flex flex-col gap-2 absolute bottom-0 left-0 p-4 phone:pb-2">
-        <div class="text-4xl font-bold">放映室，一起看</div>
-        <div class="text-2xl font-bold">你想看什么？</div>
+        <div
+          class="text-4xl font-bold text-white phone:text-black dark:text-white"
+        >
+          放映室，一起看
+        </div>
+        <div
+          class="text-2xl font-bold text-white phone:text-black dark:text-white"
+        >
+          你想看什么？
+        </div>
         <n-input placeholder="输入房间号或房间名" round>
           <template #prefix>
             <n-icon :component="Search" />
@@ -21,6 +36,69 @@
         </n-input>
       </div>
     </div>
+
+    <div class="mb-10">
+      <p class="text-4xl font-bold mb-6 line">帮助你和小伙伴们更好的开冲</p>
+      <p class="text-md dark:black-200">
+        这里应该有很多的描述，但我只会不停的鹿
+      </p>
+    </div>
+
+    <div class="w-full">
+      <p class="text-2xl font-bold mb-6">请选择你要的操作，艾拉呗！</p>
+      <div class="gap-3 w-full grid grid-cols-3">
+        <n-card :title="createRoom" embedded hoverable>
+          创建一个房间
+          <template #action>
+            <n-button type="primary" round @click="showCreateRoomModal = true"
+              >创建房间</n-button
+            >
+          </template>
+        </n-card>
+        <n-card :title="joinRoom" embedded hoverable>
+          加入一个房间
+          <template #action>
+            <n-button type="primary" round>加入房间</n-button>
+          </template>
+        </n-card>
+        <n-card title="🎫 查看列表" embedded hoverable
+          >查看可以播放的列表
+          <template #action>
+            <n-button type="primary" round>查看列表</n-button>
+          </template>
+        </n-card>
+      </div>
+    </div>
+
+    <n-modal v-model:show="showCreateRoomModal" class="w-[50rem] phone:w-full">
+      <n-card
+        title="💒创建一个房间"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        preset="card"
+        closable
+        @close="showCreateRoomModal = false"
+        aria-modal="true"
+      >
+        <template #header-extra> 噢！ </template>
+        <n-form ref="formRef" :model="createRoomModel" :rules="rules"
+          ><n-form-item path="video" label="要看的视频">
+            <n-auto-complete
+              placeholder="请选择要看的视频"
+              v-model:value="createRoomModel.video"
+            />
+          </n-form-item>
+
+          <n-form-item path="password" label="房间密码">
+            <n-input placeholder="" v-model:value="createRoomModel.age" />
+          </n-form-item>
+        </n-form>
+        <template #footer>
+          <ModalFooterButton @confirm="handlerCreateRoomConfirm" />
+        </template>
+      </n-card>
+    </n-modal>
   </div>
 </template>
 
@@ -28,13 +106,20 @@
 import { ref } from "vue";
 import { Search } from "@vicons/ionicons5";
 import indexImageSrc from "@/assets/images/index_pic.png";
+import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
+import ModalFooterButton from "@/components/ModalFooterButton.vue";
+import router from "@/router";
 import { useThemeStore } from "@/stores/theme";
 import { watch } from "vue";
 const themeStore = useThemeStore();
-console.log(themeStore.isMobile);
 let searchInputPlaceholderColorRef = ref("#fff");
-watch(
-  () => themeStore.isDarkMode,
+const formRef = ref(null);
+const createRoomModel = ref({});
+const createRoom = "🏕️ 创建放映室";
+const showCreateRoomModal = ref(false);
+const joinRoom = "🏝️ 加入放映室";
+
+() => themeStore.isDarkMode,
   (newValue, oldValue) => {
     searchInputPlaceholderColorRef.value = themeStore.isMobile
       ? themeStore.isDarkMode
@@ -43,14 +128,65 @@ watch(
       : themeStore.isDarkMode
       ? "#fff"
       : "black";
-  }
-);
+  };
+
+const handlerCreateRoomConfirm = () => {
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      // 跳转到视频页
+      router.push({
+        path: "/room",
+        query: {
+          video: createRoomModel.value.video,
+        },
+      });
+    } else {
+      console.log("error", errors);
+    }
+  });
+};
 </script>
 
 <style lang="scss" scoped>
 .n-image {
   width: 100%;
 }
+
+:deep(.n-carousel.n-carousel--show-arrow.n-carousel--bottom .n-carousel__dots) {
+  bottom: 12px;
+  left: 50%;
+}
+
+@media screen and (min-width: 600px) {
+  .line {
+    border-right: 2px solid #eee;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: grow 4s steps(30) 1s normal both,
+      blink 0.5s steps(44) infinite normal;
+  }
+}
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 30rem;
+  }
+}
+@keyframes blink {
+  from {
+    border-right-color: #eee;
+  }
+
+  to {
+    border-right-color: #222;
+  }
+}
+
 :deep(.n-input__placeholder) {
   color: v-bind(searchInputPlaceholderColor);
 }
