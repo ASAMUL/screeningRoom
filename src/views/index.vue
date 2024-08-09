@@ -38,7 +38,14 @@
     </div>
 
     <div class="mb-10">
-      <p class="text-4xl font-bold mb-6 line">帮助你和小伙伴们更好的开冲</p>
+      <p
+        :key="currentTextRef"
+        ref="textRef"
+        class="text-4xl font-bold mb-6 line"
+        :style="{ '--text-width': textWidth + 'px' }"
+      >
+        {{ currentTextRef }}
+      </p>
       <p class="text-md dark:black-200">
         这里应该有很多的描述，但我只会不停的鹿
       </p>
@@ -95,7 +102,10 @@
           </n-form-item>
         </n-form>
         <template #footer>
-          <ModalFooterButton @confirm="handlerCreateRoomConfirm" />
+          <ModalFooterButton
+            @confirm="handlerCreateRoomConfirm"
+            @cancel="showCreateRoomModal = false"
+          />
         </template>
       </n-card>
     </n-modal>
@@ -103,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import { Search } from "@vicons/ionicons5";
 import indexImageSrc from "@/assets/images/index_pic.png";
 import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
@@ -118,7 +128,37 @@ const createRoomModel = ref({});
 const createRoom = "🏕️ 创建放映室";
 const showCreateRoomModal = ref(false);
 const joinRoom = "🏝️ 加入放映室";
+const textArrRef = ref([
+  "帮助你的小伙伴们更好的开冲！",
+  "你在干什么？快来冲！",
+  "冲，带来无限可能！",
+]);
+const currentTextRef = ref(textArrRef.value[0]);
+const textWidth = ref(0);
+const textRef = ref(null);
+const updateTextWidth = () => {
+  if (textRef.value) {
+    textWidth.value = textRef.value.scrollWidth;
+  }
+};
+const changeText = () => {
+  let index = textArrRef.value.indexOf(currentTextRef.value);
+  if (index === textArrRef.value.length - 1) {
+    index = 0;
+  } else {
+    index++;
+  }
 
+  currentTextRef.value = textArrRef.value[index];
+  nextTick(updateTextWidth);
+};
+setInterval(() => {
+  changeText();
+}, 6000);
+onMounted(() => {
+  // 初始计算宽度
+  textWidth.value = textRef.value.scrollWidth;
+});
 () => themeStore.isDarkMode,
   (newValue, oldValue) => {
     searchInputPlaceholderColorRef.value = themeStore.isMobile
@@ -163,7 +203,7 @@ const handlerCreateRoomConfirm = () => {
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
-    animation: grow 4s steps(30) 1s normal both,
+    animation: grow 4s steps(44) 1s normal both,
       blink 0.5s steps(44) infinite normal;
   }
 }
@@ -174,7 +214,7 @@ const handlerCreateRoomConfirm = () => {
   }
 
   to {
-    width: 30rem;
+    width: var(--text-width);
   }
 }
 @keyframes blink {

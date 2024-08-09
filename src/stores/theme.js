@@ -7,6 +7,8 @@ export const useThemeStore = defineStore("theme", {
     darkMode: true,
     // 设备是否是手机
     mobile: false,
+    // 当前导航栏的高度
+    navbarHeight: 0,
   }),
   // actions: 用于定义操作，改变状态
   actions: {
@@ -22,6 +24,10 @@ export const useThemeStore = defineStore("theme", {
         );
       this.mobile = isMobile;
     },
+    // 设置导航栏的高度
+    setNavbarHeight(height) {
+      this.navbarHeight = height;
+    },
   },
   // getters: 用于从状态派生出数据
   getters: {
@@ -29,5 +35,7 @@ export const useThemeStore = defineStore("theme", {
     isDarkMode: (state) => state.darkMode,
     // 设备是否是手机
     isMobile: (state) => state.mobile,
+    // 当前导航栏的高度
+    getNavbarHeight: (state) => state.navbarHeight,
   },
 });

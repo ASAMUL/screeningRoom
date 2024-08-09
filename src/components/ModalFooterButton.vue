@@ -2,8 +2,8 @@
   <div
     class="modal-footer-button-container flex justify-center items-center gap-2"
   >
-    <n-button> {{ cancelText }}</n-button>
-    <n-button type="primary" @click="$emit('confirm')">
+    <n-button round @click="$emit('cancel')"> {{ cancelText }}</n-button>
+    <n-button type="primary" round @click="$emit('confirm')">
       {{ confirmText }}
     </n-button>
   </div>

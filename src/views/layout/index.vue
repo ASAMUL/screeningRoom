@@ -4,6 +4,7 @@
   >
     <div
       class="navbar flex h-14 items-center gap-4 px-2 border-b border-b-[#e7f3f2] dark:border-gray-500 pl-8 flex-shrink-0"
+      id="navbar"
     >
       <!-- Logo -->
       <div class="logo mr-auto flex items-center">
@@ -70,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Bonfire, VideocamOutline, SearchOutline } from "@vicons/ionicons5";
 import { DarkModeRound, LightModeRound } from "@vicons/material";
 import { useUserStore } from "@/stores/user";
@@ -89,6 +90,11 @@ const handleThemeChange = (val) => {
     themeStore.toggleDarkMode();
   }
 };
+
+onMounted(() => {
+  const navbar = document.getElementById("navbar");
+  themeStore.setNavbarHeight(navbar.offsetHeight);
+});
 </script>
 
 <style lang="scss" scoped></style>
