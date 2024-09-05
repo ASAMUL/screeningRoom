@@ -54,26 +54,33 @@
     <div class="w-full">
       <p class="text-2xl font-bold mb-6">请选择你要的操作，艾拉呗！</p>
       <div class="gap-3 w-full grid grid-cols-3">
-        <n-card :title="createRoom" embedded hoverable>
-          创建一个房间
-          <template #action>
-            <n-button type="primary" round @click="showCreateRoomModal = true"
+        <!-- <n-button type="primary" round @click="showCreateRoomModal = true"
               >创建房间</n-button
-            >
-          </template>
-        </n-card>
-        <n-card :title="joinRoom" embedded hoverable>
-          加入一个房间
-          <template #action>
-            <n-button type="primary" round>加入房间</n-button>
-          </template>
-        </n-card>
-        <n-card title="🎫 查看列表" embedded hoverable
-          >查看可以播放的列表
-          <template #action>
-            <n-button type="primary" round>查看列表</n-button>
-          </template>
-        </n-card>
+            > -->
+        <div class="flex justify-center items-center h-56">
+          <AnimatedButton
+            :animation-data="buttonHoverAnimation"
+            @click="showCreateRoomModal = true"
+            round
+            >创建房间</AnimatedButton
+          >
+        </div>
+        <div class="flex justify-center items-center">
+          <AnimatedButton
+            :animation-data="buttonHoverAnimation"
+            @click="showCreateRoomModal = true"
+            round
+            >加入房间</AnimatedButton
+          >
+        </div>
+        <div class="flex justify-center items-center">
+          <AnimatedButton
+            :animation-data="buttonHoverAnimation"
+            @click="showCreateRoomModal = true"
+            round
+            >查看列表</AnimatedButton
+          >
+        </div>
       </div>
     </div>
 
@@ -117,6 +124,8 @@ import { ref, nextTick, onMounted } from "vue";
 import { Search } from "@vicons/ionicons5";
 import indexImageSrc from "@/assets/images/index_pic.png";
 import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
+import AnimatedButton from "@/components/AnimatedButton.vue";
+import ButtonHover from "@/assets/lottie/button_hover.json";
 import ModalFooterButton from "@/components/ModalFooterButton.vue";
 import router from "@/router";
 import { useThemeStore } from "@/stores/theme";
@@ -136,6 +145,9 @@ const textArrRef = ref([
 const currentTextRef = ref(textArrRef.value[0]);
 const textWidth = ref(0);
 const textRef = ref(null);
+
+// 动画
+const buttonHoverAnimation = ref(ButtonHover);
 const updateTextWidth = () => {
   if (textRef.value) {
     textWidth.value = textRef.value.scrollWidth;

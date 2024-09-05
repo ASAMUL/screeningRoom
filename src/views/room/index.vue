@@ -3,7 +3,7 @@
     class="component-class w-full h-[90%]"
     :style="{ height: `calc(100% - ${themeStore.getNavbarHeight}px)` }"
   >
-    <div class="flex h-full">
+    <div class="flex h-full w-full phone:flex-col">
       <!-- 视频区域 -->
       <div class="flex-1 h-full phone:w-full phone:h-[50%]">
         <div id="dplayer" class="h-full"></div>
