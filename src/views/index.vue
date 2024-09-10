@@ -7,25 +7,20 @@
         <n-image
           height="100%"
           width="100%"
-          :src="indexImageSrc2"
+          :src="indexImageSrc3"
           object-fit="cover"
-        />
-        <n-image
-          height="100%"
-          width="100%"
-          :src="indexImageSrc"
-          object-fit="cover"
+          style="object-position: center"
         />
       </n-carousel>
 
       <div class="flex flex-col gap-2 absolute bottom-0 left-0 p-4 phone:pb-2">
         <div
-          class="text-4xl font-bold text-white phone:text-black dark:text-white"
+          class="text-4xl font-bold phone:text-black dark:text-white text-white"
         >
           放映室，一起看
         </div>
         <div
-          class="text-2xl font-bold text-white phone:text-black dark:text-white"
+          class="text-2xl font-bold phone:text-black dark:text-white text-white"
         >
           你想看什么？
         </div>
@@ -124,6 +119,7 @@ import { ref, nextTick, onMounted } from "vue";
 import { Search } from "@vicons/ionicons5";
 import indexImageSrc from "@/assets/images/index_pic.png";
 import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
+import indexImageSrc3 from "@/assets/images/index_pic_3.jpg";
 import AnimatedButton from "@/components/AnimatedButton.vue";
 import ButtonHover from "@/assets/lottie/button_hover.json";
 import ModalFooterButton from "@/components/ModalFooterButton.vue";

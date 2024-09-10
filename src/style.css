@@ -66,6 +66,7 @@ button:focus-visible {
 } */
 * {
   box-sizing: border-box;
+  font-family: 'JiangXiZhuoKai',sans-serif;
 }
 
 #app {
@@ -93,4 +94,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@font-face {
+  font-family: 'JiangXiZhuoKai';
+  src: url('./assets/fonts/JiangXiZhuoKai.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal; 
 }

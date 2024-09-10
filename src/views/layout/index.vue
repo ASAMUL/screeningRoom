@@ -11,7 +11,7 @@
         <n-icon size="20" :color="themeStore.isDarkMode ? '#fff' : '#000'">
           <Bonfire />
         </n-icon>
-        <span class="text-xl font-bold">VidSync</span>
+        <span class="text-xl font-bold">放映室</span>
       </div>
       <!-- 暗黑模式-->
       <n-switch
