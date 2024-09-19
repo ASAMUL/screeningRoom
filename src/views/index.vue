@@ -15,12 +15,12 @@
 
       <div class="flex flex-col gap-2 absolute bottom-0 left-0 p-4 phone:pb-2">
         <div
-          class="text-4xl font-bold phone:text-black dark:text-white text-white"
+          class="text-4xl font-bold phone:text-black dark:text-white text-white phone:text-xl"
         >
           放映室，一起看
         </div>
         <div
-          class="text-2xl font-bold phone:text-black dark:text-white text-white"
+          class="text-2xl font-bold phone:text-black dark:text-white text-white phone:text-xl"
         >
           你想看什么？
         </div>
@@ -36,18 +36,20 @@
       <p
         :key="currentTextRef"
         ref="textRef"
-        class="text-4xl font-bold mb-6 line"
+        class="text-4xl font-bold mb-6 line phone:text-xl"
         :style="{ '--text-width': textWidth + 'px' }"
       >
         {{ currentTextRef }}
       </p>
-      <p class="text-md dark:black-200">
+      <p class="text-md dark:black-200 phone:text-sm">
         这里应该有很多的描述，但我只会不停的鹿
       </p>
     </div>
 
     <div class="w-full">
-      <p class="text-2xl font-bold mb-6">请选择你要的操作，艾拉呗！</p>
+      <p class="text-2xl font-bold mb-6 phone:text-xl">
+        请选择你要的操作，艾拉呗！
+      </p>
       <div class="gap-3 w-full grid grid-cols-3">
         <!-- <n-button type="primary" round @click="showCreateRoomModal = true"
               >创建房间</n-button
@@ -62,7 +64,7 @@
         </div>
         <div class="flex justify-center items-center">
           <AnimatedButton
-            :animation-data="buttonHoverAnimation"
+            :animation-data="DogMove"
             @click="showCreateRoomModal = true"
             round
             >加入房间</AnimatedButton
@@ -70,7 +72,7 @@
         </div>
         <div class="flex justify-center items-center">
           <AnimatedButton
-            :animation-data="buttonHoverAnimation"
+            :animation-data="CatInBox"
             @click="showCreateRoomModal = true"
             round
             >查看列表</AnimatedButton
@@ -81,6 +83,7 @@
 
     <n-modal v-model:show="showCreateRoomModal" class="w-[50rem] phone:w-full">
       <n-card
+        solt="default"
         title="💒创建一个房间"
         :bordered="false"
         size="huge"
@@ -99,7 +102,7 @@
             />
           </n-form-item>
 
-          <n-form-item path="password" label="房间密码">
+          <n-form-item path="password" label="房间密码(可选)">
             <n-input placeholder="" v-model:value="createRoomModel.age" />
           </n-form-item>
         </n-form>
@@ -111,17 +114,21 @@
         </template>
       </n-card>
     </n-modal>
+    <GlobalLoading v-model="showGlobalLoading" showFinishedAnimation />
   </div>
 </template>
 
 <script setup>
 import { ref, nextTick, onMounted } from "vue";
 import { Search } from "@vicons/ionicons5";
+import GlobalLoading from "@/components/GlobalLoading.vue";
 import indexImageSrc from "@/assets/images/index_pic.png";
 import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
 import indexImageSrc3 from "@/assets/images/index_pic_3.jpg";
 import AnimatedButton from "@/components/AnimatedButton.vue";
-import ButtonHover from "@/assets/lottie/button_hover.json";
+import buttonHoverAnimation from "@/assets/lottie/button_hover.json";
+import DogMove from "@/assets/lottie/dog_move.json";
+import CatInBox from "@/assets/lottie/cat_in_box.json";
 import ModalFooterButton from "@/components/ModalFooterButton.vue";
 import router from "@/router";
 import { useThemeStore } from "@/stores/theme";
@@ -142,8 +149,10 @@ const currentTextRef = ref(textArrRef.value[0]);
 const textWidth = ref(0);
 const textRef = ref(null);
 
-// 动画
-const buttonHoverAnimation = ref(ButtonHover);
+// 全局loading
+const showGlobalLoading = ref(false);
+const finishedGlobalLoading = ref(false);
+
 const updateTextWidth = () => {
   if (textRef.value) {
     textWidth.value = textRef.value.scrollWidth;
@@ -180,17 +189,23 @@ onMounted(() => {
 
 const handlerCreateRoomConfirm = () => {
   formRef.value?.validate((errors) => {
-    if (!errors) {
-      // 跳转到视频页
-      router.push({
-        path: "/room",
-        query: {
-          video: createRoomModel.value.video,
-        },
-      });
-    } else {
-      console.log("error", errors);
-    }
+    showGlobalLoading.value = true;
+    // if (!errors) {
+    //   // 跳转到视频页
+    //   router.push({
+    //     path: "/room",
+    //     query: {
+    //       video: createRoomModel.value.video,
+    //     },
+    //   });
+    // } else {
+    //   console.log("error", errors);
+    // }
+    setTimeout(() => {
+      finishedGlobalLoading.value = true;
+
+      showGlobalLoading.value = false;
+    }, 1000);
   });
 };
 </script>

@@ -58,7 +58,7 @@ export default {
       animation = lottie.loadAnimation({
         container: animationContainer.value,
         renderer: "svg",
-        loop: false,
+        loop: true,
         autoplay: false,
         animationData: props.animationData,
       });
