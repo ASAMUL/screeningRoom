@@ -114,7 +114,7 @@
         </template>
       </n-card>
     </n-modal>
-    <GlobalLoading v-model="showGlobalLoading" showFinishedAnimation />
+    <!-- <GlobalLoading v-model="showGlobalLoading" showFinishedAnimation /> -->
   </div>
 </template>
 
@@ -132,7 +132,10 @@ import CatInBox from "@/assets/lottie/cat_in_box.json";
 import ModalFooterButton from "@/components/ModalFooterButton.vue";
 import router from "@/router";
 import { useThemeStore } from "@/stores/theme";
+import { useLoadingStore } from "@/stores/loading";
 import { watch } from "vue";
+const loadingStore = useLoadingStore();
+const { showLoading, hideLoading } = loadingStore;
 const themeStore = useThemeStore();
 let searchInputPlaceholderColorRef = ref("#fff");
 const formRef = ref(null);
@@ -189,7 +192,12 @@ onMounted(() => {
 
 const handlerCreateRoomConfirm = () => {
   formRef.value?.validate((errors) => {
-    showGlobalLoading.value = true;
+    showLoading("创建房间中...", true, () => {
+      // 跳转到视频页
+      router.push({
+        path: "/room",
+      });
+    });
     // if (!errors) {
     //   // 跳转到视频页
     //   router.push({
@@ -202,10 +210,8 @@ const handlerCreateRoomConfirm = () => {
     //   console.log("error", errors);
     // }
     setTimeout(() => {
-      finishedGlobalLoading.value = true;
-
-      showGlobalLoading.value = false;
-    }, 1000);
+      hideLoading();
+    }, 2000);
   });
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div
-    v-show="model"
-    class="fixed inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 z-[99999]"
+    ref="loadingContainer"
+    class="fixed inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 z-[99999] hidden"
   >
-    <div v-if="loadingText" class="text-white text-xl mb-4">
+    <div v-if="loadingText && loading" class="text-white text-xl mb-4">
       {{ loadingText }}
     </div>
     <div ref="animationContainer" class="w-[300px] h-[300px]"></div>
@@ -16,20 +16,16 @@ import lottie from "lottie-web";
 import loadingAnimation from "@/assets/lottie/around_earth.json";
 import finishedAnimation from "@/assets/lottie/success.json";
 
-const model = defineModel();
-
-const props = defineProps({
-  showFinishedAnimation: {
-    type: Boolean,
-    default: true,
-  },
-  loadingText: {
-    type: String,
-    default: "加载中",
-  },
-});
+import { useLoadingStore } from "@/stores/loading";
+import { storeToRefs } from "pinia";
+const loadingStore = useLoadingStore();
+const { hideLoading } = loadingStore;
+const { loading, loadingText, showFinishedAnimation } =
+  storeToRefs(loadingStore);
+console.log(showFinishedAnimation, loading, loadingText, "loading");
 
 const animationContainer = ref(null);
+const loadingContainer = ref(null);
 let animation = null;
 
 const loadAnimation = (animationData) => {
@@ -43,24 +39,29 @@ const loadAnimation = (animationData) => {
     autoplay: true,
     animationData: animationData,
   });
-
+  console.log(animationData === finishedAnimation, "animation");
   if (animationData === finishedAnimation) {
     animation.addEventListener("complete", () => {
-      model.value = false;
+      hideLoading();
+      loadingContainer.value.classList.add("hidden");
+      if (animation) {
+        animation.destroy();
+      }
     });
   }
 };
 
-watch(model, (newValue) => {
+watch(loading, (newValue) => {
   if (newValue) {
+    loadingContainer.value.classList.remove("hidden");
     loadAnimation(loadingAnimation);
-  } else if (props.showFinishedAnimation) {
+  } else if (showFinishedAnimation.value) {
     loadAnimation(finishedAnimation);
   }
 });
 
 onMounted(() => {
-  if (model.value) {
+  if (loading.value) {
     loadAnimation(loadingAnimation);
   }
 });
