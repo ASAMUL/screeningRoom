@@ -1,6 +1,7 @@
 <template>
   <n-config-provider :theme="themeRef" abstract>
     <Layout />
+    <LoginModal />
     <GlobalLoading />
   </n-config-provider>
 </template>
@@ -9,6 +10,7 @@ import Layout from "@/views/layout/index.vue";
 import { darkTheme } from "naive-ui";
 import { useThemeStore } from "@/stores/theme";
 import GlobalLoading from "@/components/GlobalLoading.vue";
+import LoginModal from "@/components/LoginModal.vue";
 import { ref, watch } from "vue";
 
 const useTheme = useThemeStore();

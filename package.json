@@ -1,5 +1,5 @@
 {
-  "name": "yongtaivite",
+  "name": "wtxweb",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,8 +16,10 @@
     "lottie-web": "^5.12.2",
     "pinia": "^2.1.7",
     "postcss-preset-env": "^10.0.0",
-    "vue": "^3.4.21",
-    "vue-router": "^4.4.0"
+    "vue": "^3.5.8",
+    "vue-router": "^4.4.0",
+    "vue3-lottie": "^3.3.1",
+    "wtxweb": "file:"
   },
   "devDependencies": {
     "@vicons/ionicons5": "^0.12.0",

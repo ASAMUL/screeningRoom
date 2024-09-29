@@ -9,7 +9,7 @@
           width="100%"
           :src="indexImageSrc3"
           object-fit="cover"
-          style="object-position: center"
+          style="object-position: center; height: 100%"
         />
       </n-carousel>
 
@@ -24,11 +24,11 @@
         >
           你想看什么？
         </div>
-        <n-input placeholder="输入房间号或房间名" round>
+        <!-- <n-input placeholder="输入房间号或房间名" round>
           <template #prefix>
             <n-icon :component="Search" />
           </template>
-        </n-input>
+        </n-input> -->
       </div>
     </div>
 
@@ -50,34 +50,52 @@
       <p class="text-2xl font-bold mb-6 phone:text-xl">
         请选择你要的操作，艾拉呗！
       </p>
-      <div class="gap-3 w-full grid grid-cols-3">
+      <div class="gap-3 w-full grid grid-cols-3 phone:grid-cols-1 mb-10">
         <!-- <n-button type="primary" round @click="showCreateRoomModal = true"
               >创建房间</n-button
             > -->
-        <div class="flex justify-center items-center h-56">
-          <AnimatedButton
-            :animation-data="buttonHoverAnimation"
-            @click="showCreateRoomModal = true"
-            round
-            >创建房间</AnimatedButton
-          >
-        </div>
-        <div class="flex justify-center items-center">
-          <AnimatedButton
-            :animation-data="DogMove"
-            @click="showCreateRoomModal = true"
-            round
-            >加入房间</AnimatedButton
-          >
-        </div>
-        <div class="flex justify-center items-center">
-          <AnimatedButton
-            :animation-data="CatInBox"
-            @click="showCreateRoomModal = true"
-            round
-            >查看列表</AnimatedButton
-          >
-        </div>
+        <n-thing content-indented title="一起看" :class="cardClass">
+          <template #avatar> 💒 </template>
+          创建房间后，即可和小伙伴们一起看电影啦！
+          <template #footer>
+            <div class="flex justify-start h-40 ml-8">
+              <AnimatedButton
+                :animation-data="buttonHoverAnimation"
+                @click="showCreateRoomModal = true"
+                round
+                >创建房间</AnimatedButton
+              >
+            </div>
+          </template>
+        </n-thing>
+        <n-thing content-indented title="加入放映室" :class="cardClass">
+          <template #avatar> 🌆 </template>
+          输入房间号，加入小伙伴们的放映室吧！
+          <template #footer>
+            <div class="flex justify-start h-40 ml-8">
+              <AnimatedButton
+                :animation-data="DogMove"
+                @click="showCreateRoomModal = true"
+                round
+                >加入房间</AnimatedButton
+              >
+            </div>
+          </template>
+        </n-thing>
+        <n-thing content-indented title="查看列表" :class="cardClass">
+          <template #avatar> 🌇 </template>
+          查看列表，选择你喜欢的视频，一起看吧！
+          <template #footer>
+            <div class="flex justify-start h-40 ml-8">
+              <AnimatedButton
+                :animation-data="CatInBox"
+                @click="showCreateRoomModal = true"
+                round
+                >查看列表</AnimatedButton
+              >
+            </div>
+          </template>
+        </n-thing>
       </div>
     </div>
 
@@ -121,28 +139,29 @@
 <script setup>
 import { ref, nextTick, onMounted } from "vue";
 import { Search } from "@vicons/ionicons5";
-import GlobalLoading from "@/components/GlobalLoading.vue";
-import indexImageSrc from "@/assets/images/index_pic.png";
-import indexImageSrc2 from "@/assets/images/index_pic_2.jpg";
 import indexImageSrc3 from "@/assets/images/index_pic_3.jpg";
 import AnimatedButton from "@/components/AnimatedButton.vue";
 import buttonHoverAnimation from "@/assets/lottie/button_hover.json";
 import DogMove from "@/assets/lottie/dog_move.json";
 import CatInBox from "@/assets/lottie/cat_in_box.json";
 import ModalFooterButton from "@/components/ModalFooterButton.vue";
-import router from "@/router";
+import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/theme";
 import { useLoadingStore } from "@/stores/loading";
-import { watch } from "vue";
 const loadingStore = useLoadingStore();
 const { showLoading, hideLoading } = loadingStore;
 const themeStore = useThemeStore();
 let searchInputPlaceholderColorRef = ref("#fff");
+const router = useRouter();
 const formRef = ref(null);
+const rules = {
+  video: {
+    required: true,
+    message: "请选择要看的视频",
+  },
+};
 const createRoomModel = ref({});
-const createRoom = "🏕️ 创建放映室";
 const showCreateRoomModal = ref(false);
-const joinRoom = "🏝️ 加入放映室";
 const textArrRef = ref([
   "帮助你的小伙伴们更好的开冲！",
   "你在干什么？快来冲！",
@@ -151,10 +170,9 @@ const textArrRef = ref([
 const currentTextRef = ref(textArrRef.value[0]);
 const textWidth = ref(0);
 const textRef = ref(null);
-
-// 全局loading
-const showGlobalLoading = ref(false);
-const finishedGlobalLoading = ref(false);
+const cardClass = ref(
+  "p-4 bg-gradient-to-br from-card-light-gradient-start via-card-light-gradient-middle to-card-light-gradient-end dark:from-card-dark-gradient-start dark:via-card-dark-gradient-middle dark:to-card-dark-gradient-end rounded-lg shadow-md dark:shadow-lg transition-all duration-300"
+);
 
 const updateTextWidth = () => {
   if (textRef.value) {
@@ -192,26 +210,21 @@ onMounted(() => {
 
 const handlerCreateRoomConfirm = () => {
   formRef.value?.validate((errors) => {
-    showLoading("创建房间中...", true, () => {
-      // 跳转到视频页
-      router.push({
-        path: "/room",
+    if (!errors) {
+      showLoading("创建房间中...", true, () => {
+        // 跳转到视频页
+        showCreateRoomModal.value = false;
+        router.push({
+          path: "/room",
+          // query: {
+          //   video: createRoomModel.value.video,
+          // },
+        });
       });
-    });
-    // if (!errors) {
-    //   // 跳转到视频页
-    //   router.push({
-    //     path: "/room",
-    //     query: {
-    //       video: createRoomModel.value.video,
-    //     },
-    //   });
-    // } else {
-    //   console.log("error", errors);
-    // }
-    setTimeout(() => {
-      hideLoading();
-    }, 2000);
+      setTimeout(() => {
+        hideLoading();
+      }, 500);
+    }
   });
 };
 </script>

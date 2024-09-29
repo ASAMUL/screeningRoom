@@ -8,7 +8,7 @@
   >
     <n-button
       @click="handleClick"
-      class="w-1/2 h-1/2 phone:w-full phone:text-base text-lg custom-gradient"
+      class="phone:w-full phone:text-base text-lg dark:custom-gradient"
       :type="type"
       :round="round"
       :style="{ opacity: showButton ? 1 : 0 }"
@@ -17,7 +17,7 @@
     </n-button>
     <div
       ref="animationContainer"
-      class="animation-container w-80 h-30 hidden"
+      class="animation-container w-80 h-30 hidden phone:w-40 phone:h-32"
     ></div>
   </div>
 </template>
@@ -114,7 +114,7 @@ export default {
 
 <style scoped>
 .button-container {
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   position: relative;
   display: flex;

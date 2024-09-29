@@ -1,7 +1,22 @@
-# Vue 3 + Vite
+# web 放映室
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 简介
 
-## Recommended IDE Setup
+web 放映室是一个基于 Web 的多人在线观看视频网站，旨在为用户提供一个便捷、舒适的观影体验。
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## 功能特点
+
+1. **用户管理**：支持用户注册、登录、个人信息管理等功能。
+2. **视频管理**：支持视频上传、编辑、删除、搜索、分类、推荐等功能。
+3. **弹幕管理**：支持弹幕发送、删除、搜索、分类、推荐等功能。
+4. **聊天室**：支持用户之间的实时聊天，提供一个交流观影心得的平台。
+5. **AI 功能**：支持 AI 聊天、AI 绘画、AI 配音等功能。
+
+## 技术栈
+
+- **前端**：Vue.js、Vue Router、pinia、naive-ui
+- **后端**：Spring Boot3、Spring Security、MyBatis-flex、MySQL、Redis、RabbitMQ、Docker、Jenkins
+
+# tips
+
+纯个人独立开发，前端和后端都是一个人完成的，所以代码很乱，请见谅。

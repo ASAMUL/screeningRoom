@@ -1,6 +1,6 @@
 <template>
   <div
-    class="layout-container flex flex-col w-full h-full dark:bg-[#121a21] bg-[#f8fcfb] dark:text-white"
+    class="layout-container flex flex-col w-full h-full dark:bg-dark-bg bg-light-bg dark:text-white"
   >
     <div
       class="navbar flex h-14 items-center gap-4 px-2 border-b border-b-[#e7f3f2] dark:border-gray-500 pl-8 flex-shrink-0"
@@ -9,7 +9,7 @@
       <!-- Logo -->
       <div class="logo mr-auto flex items-center">
         <n-icon size="20" :color="themeStore.isDarkMode ? '#fff' : '#000'">
-          <Bonfire />
+          <img src="@/assets/svg/圣诞日历.svg" alt="Christmas Calendar" />
         </n-icon>
         <span class="text-xl font-bold">放映室</span>
       </div>
@@ -29,7 +29,9 @@
       <!-- 导航栏 -->
       <div class="nav flex items-center gap-2">
         <n-button text tag="a" type="primary" size="small"> 主页 </n-button>
-        <n-button text tag="a" type="primary" size="small"> AI功能</n-button>
+        <n-dropdown trigger="hover" :options="aiOptions" size="small">
+          <n-button text tag="a" type="primary" size="small"> AI功能</n-button>
+        </n-dropdown>
       </div>
       <!-- 图标导航栏 -->
       <div
@@ -62,7 +64,7 @@
           v-if="store.isLoggedIn"
         />
         <div class="flex" v-else>
-          <n-button size="small"> 登录 </n-button>
+          <n-button size="small" @click="handleLogin"> 登录 </n-button>
         </div>
       </div>
     </div>
@@ -74,6 +76,8 @@
 import { ref, onMounted } from "vue";
 import { Bonfire, VideocamOutline, SearchOutline } from "@vicons/ionicons5";
 import { DarkModeRound, LightModeRound } from "@vicons/material";
+import { showLoginModal, hideLoginModal } from "@/utils/loginUtil";
+
 import { useUserStore } from "@/stores/user";
 import { useThemeStore } from "@/stores/theme";
 import { RouterView } from "vue-router";
@@ -90,7 +94,19 @@ const handleThemeChange = (val) => {
     themeStore.toggleDarkMode();
   }
 };
-
+console.log(showLoginModal, "showLoginModal");
+// 登录
+const handleLogin = () => {
+  console.log("登录");
+  showLoginModal();
+};
+// ai功能
+const aiOptions = [
+  {
+    label: "找个地方休息",
+    key: "1",
+  },
+];
 onMounted(() => {
   const navbar = document.getElementById("navbar");
   themeStore.setNavbarHeight(navbar.offsetHeight);
