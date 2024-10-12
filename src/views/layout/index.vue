@@ -32,6 +32,12 @@
         <n-dropdown trigger="hover" :options="aiOptions" size="small">
           <n-button text tag="a" type="primary" size="small"> AI功能</n-button>
         </n-dropdown>
+        <n-avatar class="ml-5" size="medium" bordered round v-if="isLoggedIn">
+          {{ user.username?.slice(0, 1) }}
+        </n-avatar>
+        <div class="flex" v-else>
+          <n-button size="small" @click="handleLogin"> 登录 </n-button>
+        </div>
       </div>
       <!-- 图标导航栏 -->
       <div
@@ -56,16 +62,6 @@
         >
           <n-icon size="20" color="#fff"> <User /> </n-icon>
         </div> -->
-        <n-avatar
-          class="ml-5"
-          size="medium"
-          bordered
-          round
-          v-if="store.isLoggedIn"
-        />
-        <div class="flex" v-else>
-          <n-button size="small" @click="handleLogin"> 登录 </n-button>
-        </div>
       </div>
     </div>
     <RouterView />
@@ -77,11 +73,12 @@ import { ref, onMounted } from "vue";
 import { Bonfire, VideocamOutline, SearchOutline } from "@vicons/ionicons5";
 import { DarkModeRound, LightModeRound } from "@vicons/material";
 import { showLoginModal, hideLoginModal } from "@/utils/loginUtil";
-
+import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import { useThemeStore } from "@/stores/theme";
 import { RouterView } from "vue-router";
 const store = useUserStore();
+const { isLoggedIn, user } = storeToRefs(store);
 const themeStore = useThemeStore();
 // 切换主题
 const themeActive = ref(false);
@@ -107,6 +104,7 @@ const aiOptions = [
     key: "1",
   },
 ];
+
 onMounted(() => {
   const navbar = document.getElementById("navbar");
   themeStore.setNavbarHeight(navbar.offsetHeight);

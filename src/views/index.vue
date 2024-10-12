@@ -50,7 +50,9 @@
       <p class="text-2xl font-bold mb-6 phone:text-xl">
         请选择你要的操作，艾拉呗！
       </p>
-      <div class="gap-3 w-full grid grid-cols-3 phone:grid-cols-1 mb-10">
+      <div
+        class="gap-3 w-full grid grid-cols-3 phone:grid-cols-1 mb-10 pad:grid-cols-1"
+      >
         <!-- <n-button type="primary" round @click="showCreateRoomModal = true"
               >创建房间</n-button
             > -->

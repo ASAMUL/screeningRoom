@@ -1,8 +1,10 @@
 <template>
   <n-config-provider :theme="themeRef" abstract>
-    <Layout />
-    <LoginModal />
-    <GlobalLoading />
+    <n-message-provider>
+      <Layout />
+      <LoginModal />
+      <GlobalLoading />
+    </n-message-provider>
   </n-config-provider>
 </template>
 <script setup>
@@ -11,6 +13,7 @@ import { darkTheme } from "naive-ui";
 import { useThemeStore } from "@/stores/theme";
 import GlobalLoading from "@/components/GlobalLoading.vue";
 import LoginModal from "@/components/LoginModal.vue";
+import { useUserStore } from "@/stores/user";
 import { ref, watch } from "vue";
 
 const useTheme = useThemeStore();
@@ -22,6 +25,13 @@ if (useTheme.isDarkMode) {
   document.documentElement.classList.remove("dark");
 }
 useTheme.checkIsMobile();
+
+const userStore = useUserStore();
+// 检查缓存中是否有用户信息
+const userInfo = localStorage.getItem("user");
+if (userInfo) {
+  userStore.setUser(JSON.parse(userInfo));
+}
 
 // 监听 isDarkMode 的变化
 watch(

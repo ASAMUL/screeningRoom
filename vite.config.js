@@ -38,9 +38,9 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       hmr: true, // 开启热更新
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: env.VITE_APP_BASE_URL,
+          target: "http://localhost:8888",
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+          rewrite: (path) => path.replace(`${env.VITE_APP_BASE_API}`, ""),
           // rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''),
         },
       },

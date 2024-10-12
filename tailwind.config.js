@@ -6,6 +6,7 @@ export default {
     extend: {
       screens: {
         phone: { max: "600px" },
+        pad: { max: "1000px" },
       },
       colors: {
         "card-light-gradient-start": "#e6f7ff",

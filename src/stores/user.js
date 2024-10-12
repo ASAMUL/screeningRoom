@@ -4,9 +4,9 @@ export const useUserStore = defineStore("user", {
   // state: 用于存储用户信息的状态
   state: () => ({
     user: {
-      id: null,
-      name: "",
-      email: "",
+      id: "",
+      username: "",
+      token: "",
     },
     isLoggedIn: false,
   }),
@@ -14,21 +14,18 @@ export const useUserStore = defineStore("user", {
   actions: {
     setUser(userData) {
       this.user = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
       this.isLoggedIn = true;
     },
     clearUser() {
       this.user = {
-        id: null,
-        name: "",
-        email: "",
+        id: "",
+        username: "",
+        token: "",
       };
       this.isLoggedIn = false;
+      localStorage.removeItem("user");
     },
   },
   // getters: 用于从状态派生出数据
-  getters: {
-    userName: (state) => state.user.name,
-    userEmail: (state) => state.user.email,
-    userId: (state) => state.user.id,
-  },
 });

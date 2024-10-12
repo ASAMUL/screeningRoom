@@ -9,3 +9,4 @@ export function hideLoginModal() {
   const loginModalStore = useLoginModalStore();
   loginModalStore.hideLoginModal();
 }
+

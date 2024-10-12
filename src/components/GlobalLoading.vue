@@ -57,6 +57,8 @@ watch(loading, (newValue) => {
     loadAnimation(loadingAnimation);
   } else if (showFinishedAnimation.value) {
     loadAnimation(finishedAnimation);
+  } else {
+    loadingContainer.value.classList.add("hidden");
   }
 });
 
