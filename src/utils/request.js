@@ -28,6 +28,7 @@ instance.interceptors.response.use(
     if (response.status !== 200 || response.data.code !== 200) {
       if (response.status === 401 || response.data.code === 401) {
         message.error("您的登录已过期，请重新登录");
+        removeLocalUser();
       } else if (response.data.code === 403 || response.status === 403) {
         message.error("您没有权限访问！");
       } else {
@@ -43,4 +44,9 @@ instance.interceptors.response.use(
   }
 );
 
+const removeLocalUser = () => {
+  if (localStorage.getItem("user")) {
+    localStorage.removeItem("user");
+  }
+};
 export default instance;

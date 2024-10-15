@@ -30,7 +30,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 
     // 运行服务的配置
     server: {
-      host: "localhost", // 服务器地址 可设置为"0.0.0.0"
+      host: "0.0.0.0", // 服务器地址 可设置为"0.0.0.0"
       port: Number(env.VITE_APP_PORT), // 端口号
       open: true, // 自动打开浏览器
       cors: true, // 跨域设置为 true
