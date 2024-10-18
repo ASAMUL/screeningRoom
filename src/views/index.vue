@@ -63,9 +63,9 @@
             <div class="flex justify-start h-40 ml-8">
               <AnimatedButton
                 :animation-data="buttonHoverAnimation"
-                @click="showCreateRoomModal = true"
+                @click="handlerCreateRoom"
                 round
-                >创建房间</AnimatedButton
+                >去创建房间</AnimatedButton
               >
             </div>
           </template>
@@ -161,6 +161,11 @@ const rules = {
     required: true,
     message: "请选择要看的视频",
   },
+};
+const handlerCreateRoom = () => {
+  router.push({
+    path: "/videoList",
+  });
 };
 const createRoomModel = ref({});
 const showCreateRoomModal = ref(false);

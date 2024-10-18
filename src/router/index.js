@@ -12,6 +12,12 @@ const routes = [
     title: "放映室",
     component: () => import("../views/room/index.vue"),
   },
+  {
+    path: "/videoList",
+    name: "视频列表",
+    title: "视频列表",
+    component: () => import("../views/videoList/index.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -145,6 +145,7 @@ const loadVideo = () => {
   });
   dp.value.on("playing", () => {
     console.log("playing");
+
     handlePlay();
   });
 
