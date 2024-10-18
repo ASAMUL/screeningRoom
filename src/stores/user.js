@@ -3,12 +3,12 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user", {
   // state: 用于存储用户信息的状态
   state: () => ({
-    user: {
+    user: JSON.parse(localStorage.getItem("user")) || {
       id: "",
       username: "",
       token: "",
     },
-    isLoggedIn: false,
+    isLoggedIn: !!localStorage.getItem("user"),
   }),
   // actions: 用于定义操作，改变状态
   actions: {
@@ -28,4 +28,8 @@ export const useUserStore = defineStore("user", {
     },
   },
   // getters: 用于从状态派生出数据
+  getters: {
+    username: (state) => state.user.username,
+    userId: (state) => state.user.id,
+  },
 });
