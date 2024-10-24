@@ -17,6 +17,7 @@ export default {
         "card-dark-gradient-end": "#2b3a4a",
         "light-bg": "#f8fcfb",
         "dark-bg": "#121a21",
+        primary: "#63e2b7",
       },
     },
   },

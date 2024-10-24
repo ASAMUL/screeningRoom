@@ -3,6 +3,7 @@ import { getToken } from "@/utils/authUtil";
 
 import { createDiscreteApi } from "naive-ui";
 const { message } = createDiscreteApi(["message"]);
+
 // 创建 Axios 实例
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -39,13 +40,20 @@ instance.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    message.error(error?.message || "系统异常，请检查网络");
+    console.log(error, "error");
+    if (error?.response?.status === 401) {
+      message.error("您的登录已过期，请重新登录");
+      removeLocalUser();
+    } else {
+      message.error(error?.message || "系统异常，请检查网络");
+    }
     return Promise.reject(error);
   }
 );
 
 const removeLocalUser = () => {
   if (localStorage.getItem("user")) {
+    // userStore.clearUser();
     localStorage.removeItem("user");
   }
 };

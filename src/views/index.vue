@@ -13,7 +13,7 @@
         />
       </n-carousel>
 
-      <div class="flex flex-col gap-2 absolute bottom-0 left-0 p-4 phone:pb-2">
+      <!-- <div class="flex flex-col gap-2 absolute bottom-0 left-0 p-4 phone:pb-2">
         <div
           class="text-4xl font-bold phone:text-black dark:text-white text-white phone:text-xl"
         >
@@ -23,13 +23,13 @@
           class="text-2xl font-bold phone:text-black dark:text-white text-white phone:text-xl"
         >
           你想看什么？
-        </div>
-        <!-- <n-input placeholder="输入房间号或房间名" round>
+        </div> -->
+      <!-- <n-input placeholder="输入房间号或房间名" round>
           <template #prefix>
             <n-icon :component="Search" />
           </template>
         </n-input> -->
-      </div>
+      <!-- </div> -->
     </div>
 
     <div class="mb-10">

@@ -101,6 +101,8 @@ import { SOCKET_URL } from "/config.js";
 
 const themeStore = useThemeStore();
 const video = useTemplateRef("video");
+// 获取视频
+const { videoId } = currentRoute.value.query;
 // 聊天相关的状态
 const messages = ref([
   { username: "帅气少年", content: "你好", timestamp: new Date() },
@@ -236,7 +238,7 @@ const client = new Client({
           dp.value.seek(videoData.currentTime);
         } else if (videoData.action === "pause" && !dp.value.video.paused) {
           console.log("收到远端暂停消息");
-          dp.value.toggle();
+          dp.value.pause();
         } else if (videoData.action === "play" && dp.value.video.paused) {
           console.log("收到远端播放消息");
           document.querySelector(".dplayer-video").play();
